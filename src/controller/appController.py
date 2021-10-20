@@ -1,4 +1,4 @@
-from typing import Iterator, List
+from typing import Iterable
 
 import requests
 from bs4 import BeautifulSoup
@@ -10,15 +10,28 @@ from src.model.json_file import JsonFile
 
 class AppController:
 
-    def load_disk_data(self, path: str, file: str) -> dict:
-        web_data = JsonFile(path, file)
-        return web_data.load()
+    def __init__(self, path: str, file: str) -> None:
+        json_data = JsonFile(path, file)
+        self.arguments = json_data.load()
 
-    def scrape_web(self, url: str, search: List[str]) -> Iterator[Coin]:
-        for name in search:
-            web_request = requests.get(url + "/currencies/" + name)
+    def scrape_web(self) -> None:
+        number_of_elements = len(self.arguments["search"])
+
+        for index in range(number_of_elements):
+            search_name = self.arguments["search"][index]
+            web_request = requests.get(self.arguments["url"] + "/currencies/" + search_name)
             content = BeautifulSoup(web_request.content, 'lxml')
             table = content.findChildren('table')[0]
             rows = table.find_all('td')
+
             information = format_table(rows)
-            yield Coin(name, *information)
+            current_coin = Coin(search_name.capitalize(), *information)
+
+            if index == number_of_elements - 1:
+                print(current_coin)
+            else:
+                print(current_coin, end="\n\n")
+
+            file_name = current_coin.name + " " + current_coin.time + ".json"
+            result = JsonFile(path="out", file=file_name)
+            result.save(current_coin.__dict__)
