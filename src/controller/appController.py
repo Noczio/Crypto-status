@@ -13,14 +13,15 @@ class AppController:
         return web_data.load()
 
     def scrape_web(self, url: str, search: List[str]) -> List[Coin]:
-        links = [url + "/currencies/" + item for item in search]
         information = []
-        for crypto in links:
-            web_request = requests.get(crypto)
+
+        for name in search:
+            web_request = requests.get(url + "/currencies/" + name)
             content = BeautifulSoup(web_request.content, 'lxml')
             table = content.findChildren('table')[0]
-            print(table)
 
+            for row in table.find_all('tr'):
+                columns = row.find_all('td')
 
             """
             info_formatted = format_crypto_data(price, hour_change, day_change,
