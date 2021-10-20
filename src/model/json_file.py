@@ -1,4 +1,5 @@
 import json
+import os
 
 
 class JsonFile:
@@ -13,6 +14,9 @@ class JsonFile:
             return json.load(file)
 
     def save(self, data: dict) -> None:
+        if not os.path.exists(self._path):
+            os.mkdir(self._path)
+
         final_path = f"{self._path}//{self._file}"
         with open(final_path, 'w', encoding="utf-8") as file:
             json.dump(data, file, indent=4)
