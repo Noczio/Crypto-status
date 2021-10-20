@@ -6,4 +6,3 @@ def format_table(data: list) -> tuple:
     trading_volume_24h = data[3].select_one("td > span").text
     rank = data[6].text
     return current_price, day_increase, low_24, high_24, trading_volume_24h, rank
-

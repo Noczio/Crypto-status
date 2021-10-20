@@ -1,4 +1,11 @@
 {
   "url": "https://coinmarketcap.com",
-  "search": ["bitcoin", "ethereum", "binance-coin", "dogecoin", "shiba-inu", "pancakeswap"]
+  "search": [
+    "bitcoin",
+    "ethereum",
+    "binance-coin",
+    "dogecoin",
+    "shiba-inu",
+    "pancakeswap"
+  ]
 }
