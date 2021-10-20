@@ -1,5 +1,3 @@
-from typing import Iterable
-
 import requests
 from bs4 import BeautifulSoup
 
