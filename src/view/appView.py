@@ -5,12 +5,12 @@ class AppView:
     _controller = AppController()
 
     def run(self):
-        init_path_args = ("src//app_data", "data.json")
-        disk_data = self._controller.load_disk_data(*init_path_args)
-        url, coins = disk_data["url"], disk_data["coins"]
-        links = [url + "/currencies/" + item for item in coins]
-        output = self._controller.scrape_web(links)
+        disk_data = self._controller.load_disk_data(path="src//app_data", file="data.json")
+        output = self._controller.scrape_web(disk_data["url"], disk_data["search"])
+        last_pos = len(output) - 1
 
-        for item in output:
-            print(item)
-
+        for counter, item in enumerate(output):
+            if counter < last_pos:
+                print(item, end="\n")
+            else:
+                print(item)
