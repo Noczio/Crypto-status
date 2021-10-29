@@ -1,8 +1,7 @@
 from colorama import init
 
-from src.view.appView import AppView
+from src.view.gui import run
 
 if __name__ == "__main__":
     init(autoreset=True)
-    app = AppView()
-    app.run()
+    run()
